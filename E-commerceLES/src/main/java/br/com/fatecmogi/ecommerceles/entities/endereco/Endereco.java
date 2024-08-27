@@ -1,16 +1,27 @@
 package br.com.fatecmogi.ecommerceles.entities.endereco;
 
+import br.com.fatecmogi.ecommerceles.entities.IEntidadeDominio;
+import br.com.fatecmogi.ecommerceles.entities.cliente.Cliente;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@EqualsAndHashCode(of = "id")
 @Table(name="Enderecos")
-public abstract class Endereco {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "end_tpEndereco", discriminatorType = DiscriminatorType.STRING)
+public abstract class Endereco implements IEntidadeDominio {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "end_seq")
+    @SequenceGenerator(name = "end_seq", allocationSize = 1)
     @Column(name="end_id")
     private Long id;
+
+    @Transient
+    private Cliente cliente;
 
     @Embedded
     @AttributeOverrides({

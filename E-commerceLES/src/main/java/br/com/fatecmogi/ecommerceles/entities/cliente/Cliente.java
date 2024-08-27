@@ -1,20 +1,28 @@
 package br.com.fatecmogi.ecommerceles.entities.cliente;
 
+import br.com.fatecmogi.ecommerceles.entities.IEntidadeDominio;
 import br.com.fatecmogi.ecommerceles.entities.cartaoDeCredito.CartaoDeCredito;
-import br.com.fatecmogi.ecommerceles.entities.endereco.Endereco;
 import br.com.fatecmogi.ecommerceles.entities.endereco.EnderecoCobranca;
 import br.com.fatecmogi.ecommerceles.entities.endereco.EnderecoEntrega;
 import br.com.fatecmogi.ecommerceles.entities.endereco.EnderecoResidencial;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name="Clientes")
-public class Cliente {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@EqualsAndHashCode(of="id")
+public class Cliente implements IEntidadeDominio {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "clt_seq")
+    @SequenceGenerator(name = "clt_seq", allocationSize = 1)
     @Column(name="clt_id")
     private Long id;
 
@@ -41,7 +49,7 @@ public class Cliente {
     @AttributeOverrides({
             @AttributeOverride(name="numeroTelefone", column = @Column(name="clt_telefone")),
             @AttributeOverride(name="DDD", column = @Column(name="clt_DDD")),
-            @AttributeOverride(name="tipoTelefone.tipoTelefone", column = @Column(name="clt_tipoTelefone"))
+            @AttributeOverride(name="tipoTelefone", column = @Column(name="clt_tipoTelefone"))
     })
     private Telefone telefone;
 
@@ -53,9 +61,15 @@ public class Cliente {
     @AttributeOverride(name="senha", column = @Column(name="clt_senha"))
     private Senha senha;
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EnderecoCobranca> enderecosCobranca;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EnderecoEntrega> enderecosEntrega;
+
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private EnderecoResidencial enderecoResidencial;
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartaoDeCredito> cartoesDeCredito;
 }

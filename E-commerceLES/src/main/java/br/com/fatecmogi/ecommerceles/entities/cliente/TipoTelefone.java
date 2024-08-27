@@ -1,10 +1,7 @@
 package br.com.fatecmogi.ecommerceles.entities.cliente;
 
-import jakarta.persistence.Embeddable;
-import lombok.Data;
+import br.com.fatecmogi.ecommerceles.entities.IEntidadeDominio;
 
-@Data
-@Embeddable
-public class TipoTelefone {
-    private String tipoTelefone;
+public enum TipoTelefone implements IEntidadeDominio {
+    FIXO, CELULAR
 }

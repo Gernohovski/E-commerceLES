@@ -1,10 +1,7 @@
 package br.com.fatecmogi.ecommerceles.entities.cartaoDeCredito;
 
-import jakarta.persistence.Embeddable;
-import lombok.Data;
+import br.com.fatecmogi.ecommerceles.entities.IEntidadeDominio;
 
-@Data
-@Embeddable
-public class BandeiraCartao {
-    private String bandeiraCartao;
+public enum BandeiraCartao implements IEntidadeDominio {
+    VISA, MASTERCARD
 }

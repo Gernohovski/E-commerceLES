@@ -1,15 +1,22 @@
 package br.com.fatecmogi.ecommerceles.entities.cliente;
 
+import br.com.fatecmogi.ecommerceles.entities.IEntidadeDominio;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
-public class Telefone {
+public class Telefone implements IEntidadeDominio {
 
-    @Embedded
+    @Enumerated(EnumType.STRING)
     private TipoTelefone tipoTelefone;
+
     private String numeroTelefone;
     private int DDD;
 }

@@ -1,4 +1,7 @@
 package br.com.fatecmogi.ecommerceles.entities.cliente;
 
-public enum Genero {
+import br.com.fatecmogi.ecommerceles.entities.IEntidadeDominio;
+
+public enum Genero implements IEntidadeDominio {
+    MASCULINO, FEMININO
 }
